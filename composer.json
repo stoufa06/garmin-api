@@ -1,5 +1,5 @@
 {
-    "name": "stoufa06/garmin-api",
+    "name": "fusionPT/garmin-api",
     "description": "PHP Garmin API library : Connect garmin api using app access tokens, use Activity API and Training API.",
     "type": "library",
     "require": {
@@ -8,13 +8,13 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Mustapha.A"
+            "name": "TrainerPlan"
         }
     ],
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Stoufa\\Garmin\\": "src/"
+            "TrainerPlan\\Garmin\\": "src/"
         }
     },
     "keywords": [
