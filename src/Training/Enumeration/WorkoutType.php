@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace Garmin\Training\Enumeration;
-
-class WorkoutType
+use Garmin\Training\Enumeration\Enumeration;
+class WorkoutType extends Enumeration
 {
     const WorkoutStep = 0;
     const WorkoutRepeatStep = 1;

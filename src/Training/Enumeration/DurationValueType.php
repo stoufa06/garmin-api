@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Garmin\Training\Enumeration;
 
-class durationValueType
+use Garmin\Training\Enumeration\Enumeration;
+
+class DurationValueType extends Enumeration
 {
     const PERCENT = 0;
     const MILE = 1;

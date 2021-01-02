@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace Garmin\Training\Enumeration;
-
-class repeatType
+use Garmin\Training\Enumeration\Enumeration;
+class RepeatType extends Enumeration
 {
     const REPEAT_UNTIL_STEPS_CMPLT = 0;
     const REPEAT_UNTIL_TIME = 1;

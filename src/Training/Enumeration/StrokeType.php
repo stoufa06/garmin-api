@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace Garmin\Training\Enumeration;
-
-class strokeType
+use Garmin\Training\Enumeration\Enumeration;
+class StrokeType extends Enumeration
 {
     const BACKSTROKE = 0;
     const BREASTSTROKE = 1;

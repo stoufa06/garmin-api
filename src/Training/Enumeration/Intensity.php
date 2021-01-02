@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace Garmin\Training\Enumeration;
-
-class Intensity
+use Garmin\Training\Enumeration\Enumeration;
+class Intensity extends Enumeration
 {
     const REST = 0;
     const WARMUP = 1;

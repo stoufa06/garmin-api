@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace Garmin\Training\Enumeration;
-
-class SportType
+use Garmin\Training\Enumeration\Enumeration;
+class SportType extends Enumeration
 {
     const RUNNING = 0;
     const CYCLING = 1;

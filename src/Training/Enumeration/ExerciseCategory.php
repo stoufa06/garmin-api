@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace Garmin\Training\Enumeration;
-
-class exerciseCategory
+use Garmin\Training\Enumeration\Enumeration;
+class ExerciseCategory extends Enumeration
 {
     const BENCH_PRESS = 0;
     const CALF_RAISE = 1;

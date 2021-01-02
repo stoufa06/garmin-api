@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace Garmin\Training\Enumeration;
-
-class targetType
+use Garmin\Training\Enumeration\Enumeration;
+class TargetType extends Enumeration
 {
     const SPEED = 0;
     const HEART_RATE = 1;
