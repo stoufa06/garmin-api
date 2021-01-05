@@ -2,11 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Garmin\Training;
+namespace Garmin\Training\WorkoutSteps;
+
+use InvalidArgumentException;
+
+use Garmin\Training\Traits\FunctionsTrait;
 
 class WorkoutStep implements WorkoutStepInterface
 {
 
+    use FunctionsTrait;
+    
     /** @var string */
     public string $type;
 
@@ -70,9 +76,37 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * Default constructor
      */
-    public function __construct()
+    public function __construct(array $args = [])
     {
         // ...
+        $this->inialiaze($args);
+
+    }
+
+    /**
+     * Default constructor
+     */
+    public function inialiaze(array $args = [])
+    {
+        // ...
+
+        foreach ($args as $key => $value) 
+        {
+			if (isset($this->$key))
+			{
+				$method = 'set'.ucfirst($key);
+
+				if (method_exists($this, $method))
+				{
+					$this->$method($value);
+				}
+				else
+				{
+					throw new InvalidArgumentException('Invalid argument '.$key);
+				}
+			}
+        }
+
     }
 
     /**

@@ -2,55 +2,53 @@
 
 declare(strict_types=1);
 
-namespace Garmin\Training;
+namespace Garmin\Training\Workouts;
 use DateTime;
-use Garmin\Training\WorkoutStep;
-use Garmin\Training\WorkoutRepeatStep;
-use Garmin\Training\Enumeration\SportType;
-class Workout
+use Exception;
+use InvalidArgumentException;
+
+use Garmin\Training\Enumeration\WorkoutStepType;
+use Garmin\Training\WorkoutRepeatSteps\WorkoutRepeatStep;
+use Garmin\Training\WorkoutSteps\WorkoutStep;
+
+abstract class Workout implements WorkoutInterface
 {
 
     /** @var int */
-    public int $workoutId;
+    protected int $workoutId;
 
     /** @var int */
-    public int $ownerId;
+    protected int $ownerId;
 
     /** @var string */
-    public string $workoutName;
+    protected string $workoutName;
 
     /** @var string */
-    public string $description;
+    protected string $description;
 
     /** @var DateTime */
-    public DateTime $updatedDate;
+    protected DateTime $updatedDate;
 
     /** @var DateTime */
-    public DateTime $createdDate;
+    protected DateTime $createdDate;
 
     /** @var string */
-    public string $sport;
+    protected string $sport;
 
     /** @var int */
-    public int $estimatedDurationInSecs;
+    protected int $estimatedDurationInSecs;
 
     /** @var float */
-    public float $estimatedDistanceInMeters;
-
-    /** @var float */
-    public float $poolLength;
+    protected float $estimatedDistanceInMeters;
 
     /** @var string */
-    public string $poolLengthUnit;
+    protected string $workoutProvider;
 
     /** @var string */
-    public string $workoutProvider;
-
-    /** @var string */
-    public string $workoutSourceId;
+    protected string $workoutSourceId;
 
     /** @var array<[object Object]> */
-    public array $steps;
+    protected array $steps;
 
 
 
@@ -58,9 +56,36 @@ class Workout
     /**
      * Default constructor
      */
-    public function __construct(array $args)
+    public function __construct(array $args = [])
     {
         // ...
+        $this->inialiaze($args);
+
+    }
+
+    /**
+     * Default constructor
+     */
+    public function inialiaze(array $args = [])
+    {
+        // ...
+
+        foreach ($args as $key => $value) 
+        {
+			if (isset($this->$key))
+			{
+				$method = 'set'.ucfirst($key);
+
+				if (method_exists($this, $method))
+				{
+					$this->$method($value);
+				}
+				else
+				{
+					throw new InvalidArgumentException('Invalid argument '.$key);
+				}
+			}
+        }
 
     }
 
@@ -151,7 +176,7 @@ class Workout
     public function setUpdatedDate(DateTime $value)
     {
         // TODO implement here
-        $this->updatedDate = $value;
+        $this->updatedDate = new DateTime($value);
     }
 
     /**
@@ -169,25 +194,7 @@ class Workout
     public function setCreatedDate(DateTime $value)
     {
         // TODO implement here
-        $this->createdDate = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSport(): string
-    {
-        // TODO implement here
-        return $this->sport;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setSport(string $value)
-    {
-        // TODO implement here
-        $this->sport = $value;
+        $this->createdDate = new DateTime($value);
     }
 
     /**
@@ -224,42 +231,6 @@ class Workout
     {
         // TODO implement here
         $this->estimatedDistanceInMeters = $value;
-    }
-
-    /**
-     * @return float
-     */
-    public function getPoolLength(): float
-    {
-        // TODO implement here
-        return $this->poolLength;
-    }
-
-    /**
-     * @param float $value
-     */
-    public function setPoolLength(float $value)
-    {
-        // TODO implement here
-        $this->poolLength = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPoolLengthUnit(): string
-    {
-        // TODO implement here
-        return $this->poolLengthUnit;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setPoolLengthUnit(string $value)
-    {
-        // TODO implement here
-        $this->poolLengthUnit = $value;
     }
 
     /**
@@ -310,10 +281,34 @@ class Workout
     /**
      * @param [object Object] $value
      */
-    public function setSteps(array $value)
+    public function setSteps(array $steps) 
+    {
+        
+        foreach ($steps as $key => $value) {
+            $repeatType = WorkoutStepType::valueOf($value['type']?? '');
+            if ($repeatType === false) 
+            {
+                throw new Exception('Invalid repeat type');
+            }
+            elseif($repeatType == WorkoutStepType::WorkoutStep)
+            {
+                $step = new WorkoutStep($value);
+            }
+            elseif($repeatType == WorkoutStepType::WorkoutRepeatStep)
+            {
+                $step = new WorkoutRepeatStep($value);
+            }
+            $this->steps [] = $step;
+        }
+    }
+
+     /**
+     * @return string
+     */
+    public function getSport(): string
     {
         // TODO implement here
-        $this->steps = $value;
+        return $this->sport;
     }
 
 }

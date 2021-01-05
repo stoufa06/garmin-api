@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Garmin\Training;
+namespace Garmin\Training\Traits;
 
-class WorkoutRepeatStep extends WorkoutStep
+trait WorkoutRepeatStepTrait
 {
 
+    use FunctionsTrait;
     /** @var array<[object Object]> */
     public array $steps;
 
