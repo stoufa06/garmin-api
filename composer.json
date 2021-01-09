@@ -1,5 +1,5 @@
 {
-    "name": "fusionPT/garmin-api",
+    "name": "trainerplan/garmin-api",
     "description": "PHP Garmin API library : Connect garmin api using app access tokens, use Activity API and Training API.",
     "type": "library",
     "require": {
