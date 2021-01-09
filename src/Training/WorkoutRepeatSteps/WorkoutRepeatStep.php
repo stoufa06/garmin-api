@@ -10,4 +10,6 @@ use Garmin\Training\WorkoutSteps\WorkoutStep;
 class WorkoutRepeatStep extends WorkoutStep
 {
     use WorkoutRepeatStepTrait;
+
+    
 }

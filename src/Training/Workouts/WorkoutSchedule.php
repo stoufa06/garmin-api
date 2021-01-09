@@ -2,31 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Garmin\Training;
+namespace Garmin\Training\Workouts;
 
 use DateTime;
+use Garmin\Training\Traits\FunctionsTrait;
 
 class WorkoutSchedule
 {
 
-    public int $scheduleId;
+    use FunctionsTrait;
+    
+    public ?int $scheduleId=null;
 
-    public int $workoutId;
+    public ?int $workoutId=null;
 
-    public DateTime $date;
-
-    /**
-     * Default constructor
-     */
-    public function __construct()
-    {
-        // ...
-    }
+    public ?DateTime $date=null;
 
     /**
      * @return int
      */
-    public function getScheduleId(): int
+    public function getScheduleId(): ?int
     {
         // TODO implement here
         return $this->scheduleId;
@@ -35,7 +30,7 @@ class WorkoutSchedule
     /**
      * @param  int $value
      */
-    public function setScheduleId(int $value)
+    public function setScheduleId(?int $value)
     {
         // TODO implement here
         $this->scheduleId = $value;
@@ -44,7 +39,7 @@ class WorkoutSchedule
     /**
      * @return int
      */
-    public function getWorkoutId(): int
+    public function getWorkoutId(): ?int
     {
         // TODO implement here
         return $this->workoutId;
@@ -53,28 +48,28 @@ class WorkoutSchedule
     /**
      * @param int  $value
      */
-    public function setWorkoutId(int $value)
+    public function setWorkoutId(?int $value)
     {
         // TODO implement here
         $this->workoutId = $value;
     }
 
     /**
-     * @return DateTime
+     * @return string
      */
-    public function getDate(): DateTime
+    public function getDate(): ?string
     {
         // TODO implement here
-        return $this->date;
+        return $this->date instanceof DateTime ? $this->date->format('Y-m-d\TH:i:s.v') : $this->date;
     }
 
     /**
-     * @param DateTime $value
+     * @param string $value
      */
-    public function setDate(DateTime $value)
+    public function setDate(?string $value)
     {
         // TODO implement here
-        $this->date = $value;
+        $value && ($this->date = new DateTime($value));
     }
 
 }

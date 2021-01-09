@@ -12,7 +12,7 @@ class Activity extends Client
     /**
      * @param string $uri
      */
-    private function get(TokenCredentials $tokenCredentials, string $uri)
+    protected function get(TokenCredentials $tokenCredentials, string $uri)
     {
         $client = $this->createHttpClient();
         $headers = $this->getHeaders($tokenCredentials, 'GET', $uri);

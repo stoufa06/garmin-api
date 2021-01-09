@@ -6,8 +6,9 @@ namespace Garmin\Training\Enumeration;
 
 use Garmin\Training\Enumeration\EnumerationInterface;
 use ReflectionClass;
+
 /**
- * Class Enumeration 
+ * Class Enumeration
  */
 class Enumeration implements EnumerationInterface
 {
@@ -23,11 +24,10 @@ class Enumeration implements EnumerationInterface
      *
      * @return array
      */
-    public static function getConstants() 
+    public static function getConstants()
     {
         
-        if (!isset(self::$constants[static::class]))
-        {
+        if (!isset(self::$constants[static::class])) {
             self::$constants[static::class] = (new ReflectionClass(static::class))->getConstants();
         }
         return self::$constants[static::class];
@@ -39,7 +39,7 @@ class Enumeration implements EnumerationInterface
      * @param string $constName
      * @return int|false
      */
-    public static function valueOf(string $constName)
+    public static function valueOf(?string $constName)
     {
         // TODO implement here
         $constants = self::getConstants();
@@ -53,7 +53,7 @@ class Enumeration implements EnumerationInterface
      * @param integer $constValue
      * @return string|false
      */
-    public static function nameOf(int $constValue)
+    public static function nameOf(?int $constValue)
     {
         // TODO implement here
         $constants = array_flip(self::getConstants());
@@ -61,6 +61,21 @@ class Enumeration implements EnumerationInterface
         return $constants[$constValue] ?? false;
     }
 
+    /**
+     * Return true if constant name is in class constants otherwise false
+     *
+     * @param string $constName
+     * @return bool
+     */
+    public static function in(?string $constName)
+    {
+        if ($constName === null) {
+            return false;
+        }
+        // TODO implement here
+        $constants = self::getConstants();
+
+        return $constants[$constName] ? true : false;
+    }
+
 }
-
-

@@ -2,7 +2,7 @@
 
 use Garmin\Training\Enumeration\DurationType;
 use Garmin\Training\Enumeration\DurationValueType;
-use Garmin\Training\Enumeration\EquipementType;
+use Garmin\Training\Enumeration\EquipmentType;
 use Garmin\Training\Enumeration\ExerciseCategory;
 use Garmin\Training\Enumeration\Intensity;
 use Garmin\Training\Enumeration\RepeatType;
@@ -10,7 +10,7 @@ use Garmin\Training\Enumeration\SportType;
 use Garmin\Training\Enumeration\StrokeType;
 use Garmin\Training\Enumeration\UnitType;
 use Garmin\Training\Enumeration\WeightUnit;
-use Garmin\Training\Enumeration\WorkoutType;
+use Garmin\Training\Enumeration\WorkoutStepType;
 //use Garmin\Training\Enumeration\Enumeration;
 use PHPUnit\Framework\TestCase;
 final class EnumerationTest extends TestCase
@@ -102,7 +102,7 @@ final class EnumerationTest extends TestCase
         $this->assertSame(DurationValueType::nameOf(self::INVALID_VALUE), false);
     }
 
-    public function testEquipementType(): void
+    public function testEquipmentType(): void
     {
         // const NONE = 0;
         // const SWIM_FINS = 1;
@@ -111,28 +111,28 @@ final class EnumerationTest extends TestCase
         // const SWIM_PULL_BUOY = 4;
         // const SWIM_SNORKEL = 5;
 
-        $this->assertSame(EquipementType::valueOf('NONE'),EquipementType::NONE);
-        $this->assertSame(EquipementType::nameOf(EquipementType::NONE), 'NONE');
+        $this->assertSame(EquipmentType::valueOf('NONE'),EquipmentType::NONE);
+        $this->assertSame(EquipmentType::nameOf(EquipmentType::NONE), 'NONE');
 
-        $this->assertSame(EquipementType::valueOf('SWIM_FINS'),EquipementType::SWIM_FINS);
-        $this->assertSame(EquipementType::nameOf(EquipementType::SWIM_FINS), 'SWIM_FINS');
+        $this->assertSame(EquipmentType::valueOf('SWIM_FINS'),EquipmentType::SWIM_FINS);
+        $this->assertSame(EquipmentType::nameOf(EquipmentType::SWIM_FINS), 'SWIM_FINS');
 
-        $this->assertSame(EquipementType::valueOf('SWIM_KICKBOARD'),EquipementType::SWIM_KICKBOARD);
-        $this->assertSame(EquipementType::nameOf(EquipementType::SWIM_KICKBOARD), 'SWIM_KICKBOARD');
+        $this->assertSame(EquipmentType::valueOf('SWIM_KICKBOARD'),EquipmentType::SWIM_KICKBOARD);
+        $this->assertSame(EquipmentType::nameOf(EquipmentType::SWIM_KICKBOARD), 'SWIM_KICKBOARD');
 
-        $this->assertSame(EquipementType::valueOf('SWIM_PADDLES'),EquipementType::SWIM_PADDLES);
-        $this->assertSame(EquipementType::nameOf(EquipementType::SWIM_PADDLES), 'SWIM_PADDLES');
+        $this->assertSame(EquipmentType::valueOf('SWIM_PADDLES'),EquipmentType::SWIM_PADDLES);
+        $this->assertSame(EquipmentType::nameOf(EquipmentType::SWIM_PADDLES), 'SWIM_PADDLES');
 
-        $this->assertSame(EquipementType::valueOf('SWIM_PULL_BUOY'),EquipementType::SWIM_PULL_BUOY);
-        $this->assertSame(EquipementType::nameOf(EquipementType::SWIM_PULL_BUOY), 'SWIM_PULL_BUOY');
+        $this->assertSame(EquipmentType::valueOf('SWIM_PULL_BUOY'),EquipmentType::SWIM_PULL_BUOY);
+        $this->assertSame(EquipmentType::nameOf(EquipmentType::SWIM_PULL_BUOY), 'SWIM_PULL_BUOY');
 
-        $this->assertSame(EquipementType::valueOf('SWIM_SNORKEL'),EquipementType::SWIM_SNORKEL);
-        $this->assertSame(EquipementType::nameOf(EquipementType::SWIM_SNORKEL), 'SWIM_SNORKEL');
+        $this->assertSame(EquipmentType::valueOf('SWIM_SNORKEL'),EquipmentType::SWIM_SNORKEL);
+        $this->assertSame(EquipmentType::nameOf(EquipmentType::SWIM_SNORKEL), 'SWIM_SNORKEL');
     }
-    public function testEquipementTypeInvalidValue(): void
+    public function testEquipmentTypeInvalidValue(): void
     {
-        $this->assertSame(EquipementType::valueOf('INVALID_VALUE'),false);
-        $this->assertSame(EquipementType::nameOf(self::INVALID_VALUE), false);
+        $this->assertSame(EquipmentType::valueOf('INVALID_VALUE'),false);
+        $this->assertSame(EquipmentType::nameOf(self::INVALID_VALUE), false);
     }
 
     public function testExerciseCategory(): void
@@ -356,16 +356,16 @@ final class EnumerationTest extends TestCase
         // const WorkoutStep = 0;
         // const WorkoutRepeatStep = 1;    
 
-        $this->assertSame(WorkoutType::valueOf('WorkoutStep'),WorkoutType::WorkoutStep);
-        $this->assertSame(WorkoutType::nameOf(WorkoutType::WorkoutStep), 'WorkoutStep');
+        $this->assertSame(WorkoutStepType::valueOf('WorkoutStep'),WorkoutStepType::WorkoutStep);
+        $this->assertSame(WorkoutStepType::nameOf(WorkoutStepType::WorkoutStep), 'WorkoutStep');
 
-        $this->assertSame(WorkoutType::valueOf('WorkoutRepeatStep'),WorkoutType::WorkoutRepeatStep);
-        $this->assertSame(WorkoutType::nameOf(WorkoutType::WorkoutRepeatStep), 'WorkoutRepeatStep');
+        $this->assertSame(WorkoutStepType::valueOf('WorkoutRepeatStep'),WorkoutStepType::WorkoutRepeatStep);
+        $this->assertSame(WorkoutStepType::nameOf(WorkoutStepType::WorkoutRepeatStep), 'WorkoutRepeatStep');
     }
     public function testWorkoutTypeInvalidValue(): void
     {
-        $this->assertSame(WorkoutType::valueOf('INVALID_VALUE'),false);
-        $this->assertSame(WorkoutType::nameOf(self::INVALID_VALUE), false);
+        $this->assertSame(WorkoutStepType::valueOf('INVALID_VALUE'),false);
+        $this->assertSame(WorkoutStepType::nameOf(self::INVALID_VALUE), false);
     }
    
 }

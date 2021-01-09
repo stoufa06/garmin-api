@@ -1,0 +1,30 @@
+<phpunit bootstrap="vendor/autoload.php">
+  <testsuites>
+    <testsuite name="Enumeration">
+      <file>tests/EnumerationTest.php</file>
+    </testsuite>
+    <testsuite name="WorkoutStep">
+      <file>tests/WorkoutStep/WorkoutStepTest.php</file>
+      <file>tests/WorkoutStep/CardioTrainingWorkoutStepTest.php</file>
+      <file>tests/WorkoutStep/StrenthTrainingWorkoutStepTest.php</file>
+      <file>tests/WorkoutStep/SwimmingWorkoutStepTest.php</file> 
+    </testsuite>
+
+    <testsuite name="WorkoutRepeatStep">
+      <file>tests/WorkoutRepeatStep/WorkoutRepeatStepTest.php</file>
+      <file>tests/WorkoutRepeatStep/CardioTrainingWorkoutRepeatStepTest.php</file>
+      <file>tests/WorkoutRepeatStep/StrengthTrainingWorkoutRepeatStepTest.php</file>
+      <file>tests/WorkoutRepeatStep/SwimmingWorkoutRepeatStepTest.php</file> 
+    </testsuite>
+
+    <testsuite name="Workout">
+      <file>tests/Workout/WorkoutTest.php</file>
+      <file>tests/Workout/RunningWorkoutTest.php</file>
+      
+      <!-- <file>tests/WorkoutStep/CardioTrainingWorkoutRepeatStepTest.php</file>
+      <file>tests/WorkoutStep/StrengthTrainingWorkoutRepeatStepTest.php</file>
+      <file>tests/WorkoutStep/SwimmingWorkoutRepeatStepTest.php</file>  -->
+    </testsuite>
+    
+  </testsuites>
+</phpunit>

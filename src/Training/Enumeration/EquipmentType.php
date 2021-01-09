@@ -6,7 +6,7 @@ namespace Garmin\Training\Enumeration;
 
 use Garmin\Training\Enumeration\Enumeration;
 
-class EquipementType extends Enumeration
+class EquipmentType extends Enumeration
 {
     const NONE = 0;
     const SWIM_FINS = 1;
