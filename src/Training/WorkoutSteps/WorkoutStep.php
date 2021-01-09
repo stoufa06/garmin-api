@@ -4,133 +4,117 @@ declare(strict_types=1);
 
 namespace Garmin\Training\WorkoutSteps;
 
-use InvalidArgumentException;
-
+use Garmin\Training\Enumeration\DurationType;
+use Garmin\Training\Enumeration\DurationValueType;
+use Garmin\Training\Enumeration\Intensity;
+use Garmin\Training\Enumeration\TargetType;
+use Garmin\Training\Enumeration\WorkoutStepType;
+use Garmin\Training\Exceptions\InvalidDurationType;
+use Garmin\Training\Exceptions\InvalidDurationValueType;
+use Garmin\Training\Exceptions\InvalidDurationValueTypeForDurationType;
+use Garmin\Training\Exceptions\InvalidIntensity;
+use Garmin\Training\Exceptions\InvalidTargetType;
+use Garmin\Training\Exceptions\InvalidTargetValueType;
+use Garmin\Training\Exceptions\InvalidTargetValueTypeForTargetType;
+use Garmin\Training\Exceptions\InvalidWorkoutStepType;
 use Garmin\Training\Traits\FunctionsTrait;
 
 class WorkoutStep implements WorkoutStepInterface
 {
+    /** @var string */
+    public ?string $type='WorkoutStep';
+
+    /** @var int */
+    public ?int $stepId=null;
+
+    /** @var int */
+    public ?int $stepOrder=null;
+
+    /** @var string */
+    public ?string $intensity=null;
+
+    /** @var string */
+    public ?string $description=null;
+
+    /** @var string */
+    public ?string $durationType=null;
+
+    /** @var float */
+    public ?float $durationValue=null;
+
+    /** @var string */
+    public ?string $durationValueType=null;
+
+    /** @var string */
+    public ?string $targetType=null;
+
+    /** @var float */
+    public ?float $targetValue=null;
+
+    /** @var float */
+    public ?float $targetValueLow=null;
+
+    /** @var float */
+    public ?float $targetValueHigh=null;
+
+    /** @var string */
+    public ?string $targetValueType=null;
 
     use FunctionsTrait;
-    
-    /** @var string */
-    public string $type;
-
-    /** @var int */
-    public int $stepId;
-
-    /** @var int */
-    public int $stepOrder;
-
-    /** @var string */
-    public string $intensity;
-
-    /** @var string */
-    public string $description;
-
-    /** @var string */
-    public string $durationType;
-
-    /** @var float */
-    public float $durationValue;
-
-    /** @var string */
-    public string $durationValueType;
-
-    /** @var string */
-    public string $targetType;
-
-    /** @var float */
-    public float $targetValue;
-
-    /** @var float */
-    public float $targetValueLow;
-
-    /** @var float */
-    public float $targetValueHigh;
-
-    /** @var string */
-    public string $targetValueType;
-
-    /** @var string */
-    public string $strokeType;
-
-    /** @var string */
-    public string $equipmentType;
-
-    /** @var string */
-    public string $exerciseCategory;
-
-    /** @var string */
-    public string $exerciseName;
-
-    /** @var float */
-    public float $weightValue;
-
-    /** @var string */
-    public string $weightDisplayUnit;
-
-
-
 
     /**
      * Default constructor
+     *
+     * @param array $args
+     * @throws InvalidWorkoutStepType
+     * @throws InvalidDurationType
+     * @throws InvalidDurationValueType
+     * @throws InvalidDurationValueTypeForDurationType
+     * @throws InvalidIntensity
+     * @throws InvalidTargetType
+     * @throws InvalidTargetValueType
+     * @throws InvalidTargetValueTypeForTargetType 
      */
     public function __construct(array $args = [])
     {
         // ...
-        $this->inialiaze($args);
-
-    }
-
-    /**
-     * Default constructor
-     */
-    public function inialiaze(array $args = [])
-    {
-        // ...
-
-        foreach ($args as $key => $value) 
-        {
-			if (isset($this->$key))
-			{
-				$method = 'set'.ucfirst($key);
-
-				if (method_exists($this, $method))
-				{
-					$this->$method($value);
-				}
-				else
-				{
-					throw new InvalidArgumentException('Invalid argument '.$key);
-				}
-			}
+        if (isset($args['type']) && $args['type'] != 'WorkoutStep') {
+            throw new InvalidWorkoutStepType();
         }
+        $this->inialiaze($args);
 
     }
 
     /**
      * @return string
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         // TODO implement here
         return $this->type;
     }
 
     /**
-     * @param string $value
+     *
+     * @param string|null $value
+     * @return void
+     * @throws InvalidWorkoutStepType
      */
-    public function setType(string $value)
+    public function setType(?string $value)
     {
         // TODO implement here
+        $val = WorkoutStepType::valueOf($value);
+        if ($val === false) {
+            throw new InvalidWorkoutStepType();
+        }
+        
         $this->type = $value;
     }
 
     /**
      * @return int
      */
-    public function getStepId(): int
+    public function getStepId(): ?int
     {
         // TODO implement here
         return $this->stepId;
@@ -139,7 +123,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param int $value
      */
-    public function setStepId(int $value)
+    public function setStepId(?int $value)
     {
         // TODO implement here
         $this->stepId = $value;
@@ -148,7 +132,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @return int
      */
-    public function getStepOrder(): int
+    public function getStepOrder(): ?int
     {
         // TODO implement here
         return $this->stepOrder;
@@ -157,7 +141,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param int $value
      */
-    public function setStepOrder(int $value)
+    public function setStepOrder(?int $value)
     {
         // TODO implement here
         $this->stepOrder = $value;
@@ -166,7 +150,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @return string
      */
-    public function getIntensity(): string
+    public function getIntensity(): ?string
     {
         // TODO implement here
         return $this->intensity;
@@ -175,16 +159,23 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param string $value
      */
-    public function setIntensity(string $value)
+    public function setIntensity(?string $value)
     {
         // TODO implement here
+        if ($value !== null && $value !== '') {
+            $val = Intensity::valueOf($value);
+            if ($val === false) {
+                throw new InvalidIntensity();
+            }
+        }
+        
         $this->intensity = $value;
     }
 
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         // TODO implement here
         return $this->description;
@@ -193,7 +184,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param string $value
      */
-    public function setDescription(string $value)
+    public function setDescription(?string $value)
     {
         // TODO implement here
         $this->description = $value;
@@ -202,7 +193,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @return string
      */
-    public function getDurationType(): string
+    public function getDurationType(): ?string
     {
         // TODO implement here
         return $this->durationType;
@@ -211,16 +202,22 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param string $value
      */
-    public function setDurationType(string $value)
+    public function setDurationType(?string $value)
     {
-        // TODO implement here
+
+        if ($value !== null && $value !== '') {
+            $val = DurationType::valueOf($value);
+            if ($val === false) {
+                throw new InvalidDurationType();
+            }
+        }
         $this->durationType = $value;
     }
 
     /**
      * @return float
      */
-    public function getDurationValue(): float
+    public function getDurationValue(): ?float
     {
         // TODO implement here
         return $this->durationValue;
@@ -229,7 +226,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param float $value
      */
-    public function setDurationValue(float $value)
+    public function setDurationValue(?float $value)
     {
         // TODO implement here
         $this->durationValue = $value;
@@ -238,8 +235,9 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @return string
      */
-    public function getDurationValueType(): string
+    public function getDurationValueType(): ?string
     {
+        
         // TODO implement here
         return $this->durationValueType;
     }
@@ -247,8 +245,17 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param string $value
      */
-    public function setDurationValueType(string $value)
+    public function setDurationValueType(?string $value)
     {
+        if ($value !== null && $value !== '') {
+            $val = DurationValueType::valueOf($value);
+            if ($val === false) {
+                throw new InvalidDurationValueType();
+            }
+            /*elseif (!in_array(DurationType::valueOf($this->durationType), [DurationType::HR_GREATER_THAN, DurationType::HR_LESS_THAN, DurationType::POWER_GREATER_THAN, DurationType::POWER_LESS_THAN])) {
+                throw new InvalidDurationValueTypeForDurationType();
+            }*/
+        }
         // TODO implement here
         $this->durationValueType = $value;
     }
@@ -256,25 +263,32 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @return string
      */
-    public function getTargetType(): string
+    public function getTargetType(): ?string
     {
         // TODO implement here
+   
         return $this->targetType;
     }
 
     /**
      * @param string $value
      */
-    public function setTargetType(string $value)
+    public function setTargetType(?string $value)
     {
         // TODO implement here
+        if ($value !== null && $value !== '') {
+            $val = TargetType::valueOf($value);
+            if ($val === false) {
+                throw new InvalidTargetType();
+            }
+        }
         $this->targetType = $value;
     }
 
     /**
      * @return float
      */
-    public function getTargetValue(): float
+    public function getTargetValue(): ?float
     {
         // TODO implement here
         return $this->targetValue;
@@ -283,7 +297,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param float $value
      */
-    public function setTargetValue(float $value)
+    public function setTargetValue(?float $value)
     {
         // TODO implement here
         $this->targetValue = $value;
@@ -292,7 +306,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @return float
      */
-    public function getTargetValueLow(): float
+    public function getTargetValueLow(): ?float
     {
         // TODO implement here
         return $this->targetValueLow ;
@@ -301,7 +315,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param float $value
      */
-    public function setTargetValueLow(float $value)
+    public function setTargetValueLow(?float $value)
     {
         // TODO implement here
         $this->targetValueLow = $value;
@@ -310,7 +324,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @return float
      */
-    public function getTargetValueHigh(): float
+    public function getTargetValueHigh(): ?float
     {
         // TODO implement here
         return $this->targetValueHigh;
@@ -319,7 +333,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param float $value
      */
-    public function setTargetValueHigh(float $value)
+    public function setTargetValueHigh(?float $value)
     {
         // TODO implement here
         $this->targetValueHigh = $value;
@@ -328,7 +342,7 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @return string
      */
-    public function getTargetValueType(): string
+    public function getTargetValueType(): ?string
     {
         // TODO implement here
         return $this->targetValueType;
@@ -337,118 +351,18 @@ class WorkoutStep implements WorkoutStepInterface
     /**
      * @param string $value
      */
-    public function setTargetValueType(string $value)
+    public function setTargetValueType(?string $value)
     {
+        if ($value !== null && $value !== '') {
+            $val = DurationValueType::valueOf($value);
+            if ($val === false) {
+                throw new InvalidTargetValueType();
+            }
+            // elseif (!in_array(TargetType::valueOf($this->targetType), [TargetType::HEART_RATE, TargetType::HEART_RATE_LAP, TargetType::POWER, TargetType::POWER_10S, TargetType::POWER_3S, TargetType::POWER_30S, TargetType::POWER_LAP])) {
+            //     throw new InvalidTargetValueTypeForTargetType();
+            // }
+        }
         // TODO implement here
         $this->targetValueType = $value;
     }
-
-    /**
-     * @return string
-     */
-    public function getStrokeType(): string
-    {
-        // TODO implement here
-        return $this->strokeType;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setStrokeType(string $value)
-    {
-        // TODO implement here
-        $this->strokeType = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEquipmentType(): string
-    {
-        // TODO implement here
-        return $this->equipmentType;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setEquipmentType(string $value)
-    {
-        // TODO implement here
-        $this->equipmentType = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExerciseCategory(): string
-    {
-        // TODO implement here
-        return $this->exerciseCategory;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setExerciseCategory(string $value)
-    {
-        // TODO implement here
-        $this->exerciseCategory = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExerciseName(): string
-    {
-        // TODO implement here
-        return $this->exerciseName;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setExerciseName(string $value)
-    {
-        // TODO implement here
-        $this->exerciseName = $value;
-    }
-
-    /**
-     * @return float
-     */
-    public function getWeightValue(): float
-    {
-        // TODO implement here
-        return $this->weightValue;
-    }
-
-    /**
-     * @param float $value
-     */
-    public function setWeightValue(float $value)
-    {
-        // TODO implement here
-        $this->weightValue = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getWeightDisplayUnit(): string
-    {
-        // TODO implement here
-        return $this->weightDisplayUnit;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setWeightDisplayUnit(string $value)
-    {
-        // TODO implement here
-        $this->weightDisplayUnit = $value;
-    }
-
 }

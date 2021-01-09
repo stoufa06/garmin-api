@@ -4,21 +4,37 @@ declare(strict_types=1);
 
 namespace Garmin\Training\Workouts;
 
-
+use Garmin\Training\Enumeration\WorkoutStepType;
+use Garmin\Training\Exceptions\InvalidRepeatType;
+use Garmin\Training\WorkoutRepeatSteps\StrengthTrainingWorkoutRepeatStep;
+use Garmin\Training\WorkoutSteps\StrengthTrainingWorkoutStep;
 
 class StrenthTrainingWorkout extends Workout
 {
+    const SPORT = 'STRENTH_TRAINING';
 
     /**
-     * Default constructor
+     * @param [object Object] $value
      */
-    public function __construct(array $args = [])
+    public function setSteps(array $steps) 
     {
-        // ...
-        $this->sport = 'STRENTH_TRAINING';
-        unset($args['sport']);
-        $this->inialiaze($args);
         
+        foreach ($steps as $key => $value) {
+            $repeatType = WorkoutStepType::valueOf($value['type']?? '');
+            if ($repeatType === false) 
+            {
+                throw new InvalidRepeatType();
+            }
+            elseif($repeatType == WorkoutStepType::WorkoutStep)
+            {
+                $step = new StrengthTrainingWorkoutStep($value);
+            }
+            elseif($repeatType == WorkoutStepType::WorkoutRepeatStep)
+            {
+                $step = new StrengthTrainingWorkoutRepeatStep($value);
+            }
+            $this->steps [] = $step;
+        }
     }
 
 }

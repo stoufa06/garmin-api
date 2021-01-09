@@ -8,14 +8,5 @@ use Garmin\Training\WorkoutSteps\SwimmingWorkoutStep;
 
 class SwimmingWorkoutRepeatStep extends SwimmingWorkoutStep
 {
-
-    use WorkoutRepeatStepTrait;
-    /**
-     * Default constructor
-     */
-    public function __construct()
-    {
-        // ...
-    }
-
+    use WorkoutRepeatStepTrait ;
 }

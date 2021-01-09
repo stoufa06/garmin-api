@@ -4,55 +4,58 @@ declare(strict_types=1);
 
 namespace Garmin\Training\WorkoutSteps;
 
+use Garmin\Training\Enumeration\WeightUnit;
+use Garmin\Training\Exceptions\InvalidWeightUnit;
+
 class StrengthTrainingWorkoutStep extends CardioTrainingWorkoutStep
 {
 
     /** @var float */
-    public float $weightValue;
+    public ?float $weightValue=null;
 
     /** @var string */
-    public string $weightDisplayUnit;
-
-    /**
-     * Default constructor
-     */
-    public function __construct()
-    {
-        // ...
-    }
+    public ?string $weightDisplayUnit=null;
 
     /**
      * @return float
      */
-    public function getWeightValue(): float
+    public function getWeightValue(): ?float
     {
         // TODO implement here
-        return 0.0;
+        return $this->weightValue;
     }
 
     /**
      * @param float $value
      */
-    public function setWeightValue(float $value)
+    public function setWeightValue(?float $value)
     {
         // TODO implement here
+        $this->weightValue = $value;
     }
 
     /**
      * @return string
      */
-    public function getWeightDisplayUnit(): string
+    public function getWeightDisplayUnit(): ?string
     {
         // TODO implement here
-        return "";
+        return $this->weightDisplayUnit;
     }
 
     /**
      * @param string $value
      */
-    public function setWeightDisplayUnit(string $value)
+    public function setWeightDisplayUnit(?string $value)
     {
         // TODO implement here
+        if ($value !== null && $value !== '') {
+            $val = WeightUnit::valueOf($value);
+            if ($val === false) {
+                throw new InvalidWeightUnit();
+            }
+        }
+        $this->weightDisplayUnit = $value;
     }
 
 }

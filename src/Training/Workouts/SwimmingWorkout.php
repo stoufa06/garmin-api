@@ -4,32 +4,28 @@ declare(strict_types=1);
 
 namespace Garmin\Training\Workouts;
 
+use Garmin\Training\Enumeration\UnitType;
+use Garmin\Training\Enumeration\WorkoutStepType;
+use Garmin\Training\Exceptions\InvalidRepeatType;
+use Garmin\Training\Exceptions\InvalidUnitType;
+use Garmin\Training\WorkoutRepeatSteps\SwimmingWorkoutRepeatStep;
+use Garmin\Training\WorkoutSteps\SwimmingWorkoutStep;
 
 class SwimmingWorkout extends Workout
 {
 
+    const SPORT = 'LAP_SWIMMING';
+
     /** @var float */
-    public float $poolLength;
+    public ?float $poolLength=null;
 
     /** @var string */
-    public string $poolLengthUnit;
+    public ?string $poolLengthUnit=null;
 
     /**
-     * Default constructor
-     */
-    public function __construct(array $args = [])
-    {
-        // ...
-        $this->sport = 'LAP_SWIMMING';
-        unset($args['sport']);
-        $this->inialiaze($args);
-        
-    }
-
-        /**
      * @return float
      */
-    public function getPoolLength(): float
+    public function getPoolLength(): ?float
     {
         // TODO implement here
         return $this->poolLength;
@@ -38,7 +34,7 @@ class SwimmingWorkout extends Workout
     /**
      * @param float $value
      */
-    public function setPoolLength(float $value)
+    public function setPoolLength(?float $value)
     {
         // TODO implement here
         $this->poolLength = $value;
@@ -47,7 +43,7 @@ class SwimmingWorkout extends Workout
     /**
      * @return string
      */
-    public function getPoolLengthUnit(): string
+    public function getPoolLengthUnit(): ?string
     {
         // TODO implement here
         return $this->poolLengthUnit;
@@ -56,10 +52,41 @@ class SwimmingWorkout extends Workout
     /**
      * @param string $value
      */
-    public function setPoolLengthUnit(string $value)
+    public function setPoolLengthUnit(?string $value)
     {
         // TODO implement here
+        if ($value) {
+            $val = UnitType::valueOf($value);
+            if ($val === false) {
+                throw new InvalidUnitType();
+            }
+        }
+        
         $this->poolLengthUnit = $value;
+    }
+
+    /**
+     * @param [object Object] $value
+     */
+    public function setSteps(array $steps) 
+    {
+        
+        foreach ($steps as $key => $value) {
+            $repeatType = WorkoutStepType::valueOf($value['type']?? '');
+            if ($repeatType === false) 
+            {
+                throw new InvalidRepeatType();
+            }
+            elseif($repeatType == WorkoutStepType::WorkoutStep)
+            {
+                $step = new SwimmingWorkoutStep($value);
+            }
+            elseif($repeatType == WorkoutStepType::WorkoutRepeatStep)
+            {
+                $step = new SwimmingWorkoutRepeatStep($value);
+            }
+            $this->steps [] = $step;
+        }
     }
 
 }
